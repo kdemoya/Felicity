@@ -1,0 +1,28 @@
+{
+  "name": "felicity",
+  "version": "1.0.0",
+  "description": "Home Automation Bot",
+  "main": "index.js",
+  "dependencies": {
+    "babel-cli": "^6.5.1",
+    "babel-preset-es2015": "^6.5.0",
+    "lodash": "^4.3.0",
+    "request": "^2.69.0",
+    "telebot": "0.0.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "babel-node --presets es2015 ./app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kdemoya/Felicity.git"
+  },
+  "author": "Kelvin De Moya",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/kdemoya/Felicity/issues"
+  },
+  "homepage": "https://github.com/kdemoya/Felicity#readme"
+}
