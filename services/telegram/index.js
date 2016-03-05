@@ -37,5 +37,11 @@ export default () => {
     handleSwitch(heaterOff, msg);
   });
 
+  bot.on('error', (error) => {
+    console.log(error);
+    bot.disconnect();
+    bot.connect();
+  });
+
   bot.connect();
 };
