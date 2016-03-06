@@ -1,16 +1,18 @@
 export const ifttt = {
   key: 'IFTTT_KEY',
   events: {
-    eventName: 'event_text'
+    event_name: 'event_text'
   }
 };
 
 export const telegram = {
-  botConfig: {
-    token: 'TELEGRAM_BOT_KEY',
-    sleep: 1000, // How often check updates (in ms)
-    timeout: 0, // Update pulling timeout (0 - short polling)
-    limit: 100 // Limits the number of updates to be retrieved
+  token: 'TELEGRAM_BOT_KEY',
+  commands: [
+    'command_one',
+    'command_two'
+  ],
+  botan: {
+    token: 'BOTAN.IO_KEY // Telegram Bots Analytics
   },
   users: [
     'user1',

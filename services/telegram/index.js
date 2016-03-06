@@ -1,12 +1,12 @@
-import TeleBot from 'telebot';
+import Bot from 'node-telegram-bot';
 import * as _ from 'lodash';
 import {telegram, ifttt} from '../../configs';
 import {ifttt as iftttTrigger} from '../../utils/triggers';
 
 export default () => {
-  const bot = new TeleBot(telegram.botConfig);
-  const heaterOn = 'heater_on';
-  const heaterOff = 'heater_off';
+  const bot = new Bot({
+    token: telegram.token
+  });
 
   /**
    * Gets command and trigger signal to switch heater on/off.
@@ -14,34 +14,40 @@ export default () => {
    * @param {String} command - User command.
    * @param {Object} msg - Telegram message object.
    */
-  let handleSwitch = (command, msg) => {
+  const handleSwitch = (command, msg) => {
     const id = msg.chat.id;
     const firstName = msg.from.first_name;
     const authorized = _.includes(telegram.users, msg.from.username);
-    const event = _.camelCase(command);
-    const message = authorized ? `Got it, ${firstName}! Turning ${event}`
+    const message = authorized ? `Got it, ${firstName}! Hacking into the heater.`
                                : 'Hold on Canary, this is above your pay rate.';
 
     if (authorized) {
-      iftttTrigger(ifttt.events[event], ifttt.key);
+      iftttTrigger(ifttt.events[command], ifttt.key);
     }
 
-    bot.sendMessage(id, message);
+    bot.sendMessage({
+      chat_id: id,
+      text: message
+    });
   };
 
-  bot.on('/' + heaterOn, (msg) => {
-    handleSwitch(heaterOn, msg);
+  // Start capturing commands.
+  bot.on('message', (msg) => {
+    const commandText = _
+        .chain(msg.text)
+        .split('@', 1)
+        .snakeCase()
+        .value();
+
+    const validCommand = _.includes(telegram.commands, commandText);
+
+    if (validCommand) {
+      handleSwitch(commandText, msg);
+    }
   });
 
-  bot.on('/' + heaterOff, (msg) => {
-    handleSwitch(heaterOff, msg);
-  });
+  bot.enableAnalytics(telegram.botan);
+  bot.start();
 
-  bot.on('error', (error) => {
-    console.log(error);
-    bot.disconnect();
-    bot.connect();
-  });
-
-  bot.connect();
+  console.log('Felicity is alive!');
 };
