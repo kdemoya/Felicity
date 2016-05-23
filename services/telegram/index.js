@@ -44,7 +44,7 @@ export default () => {
 
       bot.sendMessage({
         chat_id: id,
-        text: 'Good girl! 💁'
+        text: 'Good girl! 🙆'
       });
     }
   };
