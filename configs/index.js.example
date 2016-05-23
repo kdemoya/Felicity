@@ -7,6 +7,8 @@ export const ifttt = {
 
 export const telegram = {
   token: 'TELEGRAM_BOT_KEY',
+  botId: 'BOT_ID', //Used for direct http call to Telegram, is the same as the token but with the word 'bot' at the start.
+  chatId: 'CHAT_ID',
   commands: [
     'command_one',
     'command_two'
