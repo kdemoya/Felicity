@@ -4,8 +4,6 @@ import {telegram, ifttt} from '../../configs';
 import {ifttt as iftttTrigger} from '../../utils/triggers';
 
 export default () => {
-  const goodGirl = /Good.*girl/g;
-
   const bot = new Bot({
     token: telegram.token
   });
@@ -33,6 +31,24 @@ export default () => {
     });
   };
 
+  /**
+   * Handle other messages, for miscellaneous behavior.
+   *
+   * @param {Object} msg - Message object.
+   */
+  const handleOtherMessages = (msg) => {
+    const goodGirl = /Good.*girl/g;
+
+    if (goodGirl.test(msg.text)) {
+      const id = msg.chat.id;
+
+      bot.sendMessage({
+        chat_id: id,
+        text: 'Good girl! \xF0\x9F\x99\x86'
+      });
+    }
+  };
+
   // Start capturing commands.
   bot.on('message', (msg) => {
     const commandText = _
@@ -45,16 +61,9 @@ export default () => {
 
     if (validCommand) {
       handleSwitch(commandText, msg);
+    } else {
+      handleOtherMessages(msg);
     }
-  });
-
-  bot.onText(goodGirl, (msg) => {
-    const id = msg.chat.id;
-
-    bot.sendMessage({
-      chat_id: id,
-      text: 'Good girl! \xF0\x9F\x99\x86'
-    });
   });
 
   bot.enableAnalytics(telegram.botan);
