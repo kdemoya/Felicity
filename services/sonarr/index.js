@@ -12,11 +12,11 @@ import { telegram } from '../../configs';
 
 export default (data) => {
   const handleRequest = (data) => {
-    const serie = _.pick(data, 'Series.Title');
-    const episodeName = _.pick(data, 'Episodes.Title');
-    const episodeNumber = _.pick(data, 'Episodes.EpisodeNumber');
-    const seasonNumber = _.pick(data, 'Episodes.SeasonNumber');
-    const message = `Hey guys, episode ${episodeNumber} (${episodeName}) from ${serie} season ${seasonNumber} was just downloaded.`;
+    const serie = _.get(data, 'Series.Title');
+    const episodeName = _.get(data, 'Episodes[0].Title');
+    const episodeNumber = _.get(data, 'Episodes[0].EpisodeNumber');
+    const seasonNumber = _.get(data, 'Episodes[0].SeasonNumber');
+    const message = `Hey guys, episode "${episodeName}" (${episodeNumber}) from "${serie}" season "${seasonNumber}" was just downloaded.`;
 
     sonarr.downloaded(telegram, message);
   };
